@@ -6,7 +6,6 @@
     <title>Atelier Archives</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-res/main/head_12.png">
     
-    <!-- Added Google Fonts for a prettier, softer typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -21,7 +20,6 @@
   --text-main: #5d4157;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -56,7 +54,6 @@ header {
   border-bottom: 2px solid var(--glass-border);
   box-shadow: 0 4px 15px rgba(255, 133, 186, 0.05);
   
-  /* Gradient Text for Header */
   background: -webkit-linear-gradient(45deg, #ff85ba, #ff5c9d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -175,7 +172,6 @@ input:focus, select:focus {
   color: var(--nikki-pink-dark);
 }
 
-/* Modal Styling */
 .modal {
   display: none;
   position: fixed;
@@ -386,30 +382,39 @@ input:focus, select:focus {
 </header>
 
 <div class="topbar">
+    <select id="langSwitcher" onchange="changeLanguage()">
+        <option value="en">English</option>
+        <option value="vn">Tiếng Việt</option>
+        <option value="cn">中文</option>
+        <option value="jp">日本語</option>
+    </select>
+    
     <input type="text" id="search" placeholder="Search suit..." oninput="searchSuit()">
+    
     <select id="filter" onchange="filterSuit()">
-    <option value="All">All Categories</option>
-    <option value="Classic">Classic</option>
-    <option value="Luxury">Luxury</option>
-    <option value="Time Memories">Time Memories</option>
-    <option value="Apple">Apple</option>
-    <option value="Lilith">Lilith</option>
-    <option value="Cloud">Cloud</option>
-    <option value="Pigeon">Pigeon</option>
-    <option value="North">North</option>
-    <option value="Wasteland">Wasteland</option>
-    <option value="Ruin">Ruin</option>
-    <option value="Story Suits">Story Suits</option>
-    <option value="Festivals">Festivals</option>
-    <option value="Troupe">Troupe</option>
-    <option value="4 Seasons">4 Seasons</option>
-    <option value="Imperial Garden">Imperial Garden</option>
-    <option value="Stars">Stars</option>
-    <option value="Happiness">Happiness</option>
-    <option value="Wonder Museum">Wonder Museum</option>
-    <option value="Fairy Tale">Fairy Tale</option>
-    <option value="Gallery">Gallery</option>
-  </select>
+        <option value="All">All Categories</option>
+        <option value="Classic">Classic</option>
+        <option value="Luxury">Luxury</option>
+        <option value="Time Memories">Time Memories</option>
+        <option value="Apple">Apple</option>
+        <option value="Lilith">Lilith</option>
+        <option value="Cloud">Cloud</option>
+        <option value="Pigeon">Pigeon</option>
+        <option value="North">North</option>
+        <option value="Wasteland">Wasteland</option>
+        <option value="Ruin">Ruin</option>
+        <option value="Story Suits">Story Suits</option>
+        <option value="Festivals">Festivals</option>
+        <option value="Troupe">Troupe</option>
+        <option value="4 Seasons">4 Seasons</option>
+        <option value="Imperial Garden">Imperial Garden</option>
+        <option value="Stars">Stars</option>
+        <option value="Happiness">Happiness</option>
+        <option value="Wonder Museum">Wonder Museum</option>
+        <option value="Fairy Tale">Fairy Tale</option>
+        <option value="Gallery">Gallery</option>
+    </select>
+    
     <button class="cart-btn" onclick="toggleCart()">Cart (<span id="cartCount">0</span>)</button>
 </div>
 
@@ -437,10 +442,26 @@ input:focus, select:focus {
 let suits = [];
 let cart = new Map();
 let currentSuit = null;
+let currentLanguage = "en";
 
 const BASE_USER = "https://raw.githubusercontent.com/harusakurahime-blip";
 const REPOS = ["mn-res", "mn-res-b3", "mn-res-b4", "mn-res-b5", "mn-res-b6", "mn-res-b7", "mn-res-b8", "mn-res-b9", "mn-res-b10", "mn-res-b11"]; 
 const VARIANTS = ["-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9", "-13", "-14", "-101", "-201", "-301", "-701", "-901"];
+
+function getSuitName(s) {
+    if (!s) return "Unnamed Suit";
+    
+    if (s.names) {
+        // Try getting the name in the currently selected language
+        if (s.names[currentLanguage]) {
+            return s.names[currentLanguage];
+        }
+        // Fallback chain if the preferred language is missing
+        return s.names.en || s.names.vn || s.names.cn || s.names.jp || s.name || s.SuitName || "Unnamed Suit";
+    }
+    
+    return s.name || s.SuitName || "Unnamed Suit";
+}
 
 const imageObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
@@ -485,16 +506,8 @@ fetch("data.json")
     .then(data => {
         suits = data;
 
-        // UPDATED SORTING: Prioritize suits with a VN name, fallback to ID sorting
-        suits.sort((a, b) => {
-            const hasVnA = (a.names && a.names.vn) ? 1 : 0;
-            const hasVnB = (b.names && b.names.vn) ? 1 : 0;
-            
-            if (hasVnA !== hasVnB) {
-                return hasVnB - hasVnA; // Puts the item with a VN name first
-            }
-            return Number(b.id) - Number(a.id); // Fallback to descending ID
-        });
+        // Reverted to simple Latest to Oldest by ID
+        suits.sort((a, b) => Number(b.id) - Number(a.id));
         
         displaySuits(suits);
         loadCart();
@@ -516,8 +529,8 @@ function createCard(s) {
     const card = document.createElement("div");
     card.className = "suit-card";
 
-    // Try finding the vn name first, then fallback to others
-    const name = s.names?.vn || s.names?.en || s.names?.cn || s.names?.jp || s.name || s.SuitName || "Unnamed Suit";
+    // Grab name using our language helper function
+    const name = getSuitName(s);
 
     card.innerHTML = `
         <img data-id="${s.id}" style="opacity: 0; transition: opacity 0.4s ease-in-out;" alt="${name}">
@@ -534,8 +547,8 @@ function openSuit(suit) {
     currentSuit = suit;
     document.getElementById("modal").style.display = "flex";
     
-    const suitName = suit.names?.vn || suit.names?.en || suit.names?.cn || suit.names?.jp || suit.name || suit.SuitName || "Suit Parts";
-    document.getElementById("suitTitle").textContent = suitName;
+    // Grab name using our language helper function
+    document.getElementById("suitTitle").textContent = getSuitName(suit);
 
     const grid = document.getElementById("partsGrid");
     grid.innerHTML = "<div style='grid-column: 1 / -1; text-align: center; color: var(--nikki-pink); font-weight: bold;'>Nikki's Scanning Wardrobe...</div>";
@@ -567,6 +580,45 @@ function openSuit(suit) {
     setTimeout(() => { 
         if (!loadedAny) grid.innerHTML = "<div style='grid-column: 1 / -1; text-align: center; color: var(--text-main);'>Nikki got distracted... (Reopen me again to see clothing parts! ...or wait since she's getting the items up!)</div>"; 
     }, 4000);
+}
+
+function changeLanguage() {
+    currentLanguage = document.getElementById("langSwitcher").value;
+    
+    // Re-render the grid based on current search or filter
+    const q = document.getElementById("search").value;
+    if (q) {
+        searchSuit();
+    } else {
+        filterSuit();
+    }
+
+    // Live update the modal title if it is currently open
+    if (currentSuit && document.getElementById("modal").style.display === "flex") {
+        document.getElementById("suitTitle").textContent = getSuitName(currentSuit);
+    }
+}
+
+function searchSuit() {
+    const q = document.getElementById("search").value.toLowerCase();
+    
+    const filtered = suits.filter(s => {
+        const allNames = [
+            s.name, 
+            s.SuitName, 
+            ...(s.names ? Object.values(s.names) : [])
+        ].join(" ").toLowerCase();
+
+        return allNames.includes(q) || (s.id && s.id.toString().includes(q));
+    });
+    
+    displaySuits(filtered);
+}
+
+function filterSuit() {
+    const f = document.getElementById("filter").value;
+    const filtered = f === "All" ? suits : suits.filter(s => s.category === f);
+    displaySuits(filtered);
 }
 
 function addToCart(id, url) {
@@ -635,7 +687,7 @@ async function downloadSuit() {
     zip.generateAsync({type:"blob"}).then(content => {
         const a = document.createElement("a");
         a.href = URL.createObjectURL(content);
-        a.download = `${currentSuit.name || 'Suit'}.zip`;
+        a.download = `${getSuitName(currentSuit)}.zip`;
         a.click();
     });
 }
@@ -656,28 +708,6 @@ async function downloadCart() {
         a.download = "Nikki_Cart.zip";
         a.click();
     });
-}
-
-function searchSuit() {
-    const q = document.getElementById("search").value.toLowerCase();
-    
-    const filtered = suits.filter(s => {
-        const allNames = [
-            s.name, 
-            s.SuitName, 
-            ...(s.names ? Object.values(s.names) : [])
-        ].join(" ").toLowerCase();
-
-        return allNames.includes(q) || (s.id && s.id.toString().includes(q));
-    });
-    
-    displaySuits(filtered);
-}
-
-function filterSuit() {
-    const f = document.getElementById("filter").value;
-    const filtered = f === "All" ? suits : suits.filter(s => s.category === f);
-    displaySuits(filtered);
 }
 
 function toggleCart() {

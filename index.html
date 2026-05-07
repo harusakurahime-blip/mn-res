@@ -5,123 +5,177 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atelier Archives</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/V1si0n-LNpr3D1cf0r/mn-res/main/head_12.png">
+    
+    <!-- Added Google Fonts for a prettier, softer typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
 :root {
   --nikki-pink: #ff85ba;
+  --nikki-pink-dark: #ff5c9d;
   --soft-blush: #ffe4f0;
-  --glass-bg: rgba(255, 255, 255, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.8);
   --text-main: #5d4157;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #ffb3d9;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--nikki-pink);
 }
 
 body {
   margin: 0;
-  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background: radial-gradient(circle at top right, #fff0f6, transparent), #ffe4f0;
+  font-family: "Nunito", "Segoe UI", Roboto, sans-serif;
+  background: radial-gradient(circle at top right, #fff0f6, transparent), linear-gradient(135deg, #fff0f6 0%, #ffe4f0 100%);
   background-attachment: fixed;
   color: var(--text-main);
   -webkit-tap-highlight-color: transparent;
 }
 
 header {
-  padding: 20px;
+  padding: 25px 20px;
   text-align: center;
-  font-family: "Georgia", serif;
-  font-weight: bold;
-  font-size: 24px;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px);
-  color: var(--nikki-pink);
+  font-weight: 800;
+  font-size: 32px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 2px solid var(--glass-border);
+  box-shadow: 0 4px 15px rgba(255, 133, 186, 0.05);
+  
+  /* Gradient Text for Header */
+  background: -webkit-linear-gradient(45deg, #ff85ba, #ff5c9d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(255, 133, 186, 0.1);
 }
 
 .topbar {
   display: flex;
   justify-content: center;
-  gap: 10px;
-  padding: 15px;
+  gap: 12px;
+  padding: 20px;
   flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: linear-gradient(to bottom, rgba(255,240,246,0.9) 0%, rgba(255,240,246,0) 100%);
 }
 
 input, select {
-  padding: 10px 15px;
-  border-radius: 20px;
-  border: 1px solid var(--glass-border);
-  background: white;
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: 2px solid white;
+  background: rgba(255, 255, 255, 0.8);
   color: var(--text-main);
   outline: none;
-  font-size: 14px;
+  font-size: 15px;
+  font-family: inherit;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+  border-color: var(--nikki-pink);
+  background: white;
+  box-shadow: 0 4px 15px rgba(255, 133, 186, 0.15);
 }
 
 .cart-btn, .small-btn {
   background: linear-gradient(135deg, #ff85ba, #ffb3d9);
   color: white;
   border: none;
-  padding: 10px 18px;
-  border-radius: 20px;
-  font-weight: bold;
+  padding: 12px 22px;
+  border-radius: 25px;
+  font-weight: 700;
+  font-family: inherit;
+  font-size: 15px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(255, 133, 186, 0.3);
+  box-shadow: 0 4px 12px rgba(255, 133, 186, 0.35);
+  transition: all 0.2s ease;
+}
+
+.cart-btn:hover, .small-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 133, 186, 0.5);
+  background: linear-gradient(135deg, #ff7ab3, #ffb3d9);
+}
+
+.cart-btn:active, .small-btn:active {
+  transform: translateY(1px);
 }
 
 .suit-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 15px;
-  padding: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  padding: 20px 30px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* Restores the stylish card look */
 .suit-card {
-  background: rgba(255, 255, 255, 0.4); 
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  border-radius: 20px;
-  padding: 12px;
+  background: rgba(255, 255, 255, 0.5); 
+  border: 2px solid white;
+  border-radius: 24px;
+  padding: 15px;
   text-align: center;
   cursor: pointer;
   order: 100;
-  opacity: 0.5; /* "Ghost" mode for empty cards */
-  transition: all 0.3s ease;
+  opacity: 0.5;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Stylish card when image loads */
 .suit-card.has-image {
   order: 1; 
   opacity: 1 !important; 
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 8px 25px rgba(255, 133, 186, 0.12);
+}
+
+.suit-card.has-image:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(255, 133, 186, 0.25);
   background: white;
-  box-shadow: 0 8px 20px rgba(255, 133, 186, 0.15);
-  border: 1px solid #fff;
 }
 
 .suit-card img {
   width: 100%;
-  height: 160px;
+  height: 170px;
   object-fit: contain;
   border-radius: 12px;
-  margin-bottom: 8px;
-  background: transparent; /* OG colors stay pure */
+  margin-bottom: 12px;
+  background: transparent;
 }
 
-/* Fixes the "X" button position */
-.close-btn {
-  position: absolute; /* Changed from sticky */
-  top: 15px;
-  right: 15px;
-  font-size: 28px;
-  font-weight: bold;
-  color: var(--nikki-pink);
-  cursor: pointer;
-  z-index: 1001;
-  background: #fff0f6; /* Soft pink background */
-  width: 40px;
-  height: 40px;
-  line-height: 38px;
-  text-align: center;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+.suit-card div {
+  margin-top: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-main);
+  transition: color 0.3s ease;
 }
 
+.suit-card.has-image:hover div {
+  color: var(--nikki-pink-dark);
+}
+
+/* Modal Styling */
 .modal {
   display: none;
   position: fixed;
@@ -130,51 +184,95 @@ input, select {
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 182, 193, 0.3);
-  backdrop-filter: blur(10px);
+  background: rgba(93, 65, 87, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   justify-content: center;
   align-items: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .modal-content {
   background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 25px;
+  padding: 30px;
+  border-radius: 30px;
   width: 95%;
-  max-width: 900px;
+  max-width: 950px;
   max-height: 85vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+  animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--nikki-pink);
+  cursor: pointer;
+  z-index: 1001;
+  background: #fff0f6;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(255, 133, 186, 0.2);
+  transition: all 0.2s;
+}
+
+.close-btn:hover {
+  background: var(--nikki-pink);
+  color: white;
+  transform: rotate(90deg);
+}
 
 .parts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 15px;
-  margin-top: 15px;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
 }
 
 .part-card {
   background: white;
-  border-radius: 15px;
-  padding: 10px;
-  border: 1px solid #ffe4f0;
+  border-radius: 20px;
+  padding: 12px;
+  border: 2px solid var(--soft-blush);
   text-align: center;
-  box-shadow: 0 4px 10px rgba(255, 133, 186, 0.1);
+  box-shadow: 0 4px 15px rgba(255, 133, 186, 0.08);
+  transition: transform 0.2s;
+}
+
+.part-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--nikki-pink);
 }
 
 .part-card img {
   width: 100%;
-  height: 100px;
+  height: 110px;
   object-fit: contain;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 
 .btn-group {
   display: flex;
-  gap: 5px;
+  gap: 6px;
   width: 100%;
   justify-content: center;
 }
@@ -185,34 +283,72 @@ input, select {
   right: 0;
   top: 0;
   width: 100%;
-  max-width: 320px;
+  max-width: 350px;
   height: 100%;
-  background: white;
-  border-left: 3px solid var(--nikki-pink);
-  padding: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-left: 2px solid white;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.05);
+  padding: 25px;
   z-index: 2000;
   box-sizing: border-box;
   overflow-y: auto;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }
 
 .cart-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid #ffd1e3;
-  padding: 10px 0;
+  gap: 15px;
+  border-bottom: 1px solid var(--soft-blush);
+  padding: 15px 0;
 }
 
 .cart-item img {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
   flex-shrink: 0;
+  background: #fff0f6;
+  border-radius: 10px;
+  padding: 4px;
 }
 
 .trash {
   cursor: pointer;
   margin-left: auto;
+  background: #fff0f6;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.trash:hover {
+  background: #ffd1e3;
+  transform: scale(1.1);
+}
+
+#suitTitle {
+  margin-top: 0;
+  color: var(--text-main);
+  font-weight: 800;
+}
+
+.mobile-notice {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main);
+    opacity: 0.7;
+    margin-top: 10px;
+    display: block;
+    letter-spacing: 0.5px;
+    -webkit-text-fill-color: initial;
+    text-shadow: none;
 }
 
 @media (max-width: 600px) {
@@ -220,49 +356,25 @@ input, select {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 12px;
   }
-
   .part-card img {
     height: 90px;
   }
-
   .btn-group .small-btn {
     flex: 1;
-    font-size: 11px;
-    padding: 8px 2px;
+    font-size: 12px;
+    padding: 8px 4px;
   }
-
   .modal-content {
-    padding: 15px;
+    padding: 20px;
     width: 92%;
   }
-
   #suitTitle {
-    font-size: 18px;
-    margin-right: 35px;
+    font-size: 20px;
+    margin-right: 40px;
   }
-}
-
-.mobile-notice {
-    font-size: 12px;
-    font-family: sans-serif;
-    font-weight: normal;
-    color: #5d4157;
-    opacity: 0.8;
-    margin-top: 8px;
-    display: block;
-    letter-spacing: 0.5px;
-}
-
-.suit-card div {
-  margin-top: 8px;
-  font-weight: bold;
-  font-size: 14px;
-  color: var(--nikki-pink);
-  transition: color 0.3s ease;
-}
-
-.suit-card:hover div {
-  color: #ff5c9d;
+  header {
+    font-size: 24px;
+  }
 }
     </style>
 </head>
@@ -276,7 +388,7 @@ input, select {
 <div class="topbar">
     <input type="text" id="search" placeholder="Search suit..." oninput="searchSuit()">
     <select id="filter" onchange="filterSuit()">
-    <option value="All">All</option>
+    <option value="All">All Categories</option>
     <option value="Classic">Classic</option>
     <option value="Luxury">Luxury</option>
     <option value="Time Memories">Time Memories</option>
@@ -305,21 +417,18 @@ input, select {
 
 <div class="modal" id="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
-
         <span class="close-btn" onclick="closeModal()">&times;</span>
-
         <h2 id="suitTitle"></h2>
-        <button class="small-btn" style="margin-bottom:10px; padding: 10px;" onclick="downloadSuit()">Download Full Suit</button>
+        <button class="small-btn" style="margin-bottom:15px; padding: 12px 20px;" onclick="downloadSuit()">Download Full Suit</button>
         <div class="parts-grid" id="partsGrid"></div>
     </div>
 </div>
 
-
 <div class="cart-panel" id="cartPanel">
-    <h3>My Cart</h3>
+    <h3 style="margin-top: 0;">My Styling Cart</h3>
     <div id="cartItems"></div>
-    <button class="small-btn" style="width:100%; margin-top:10px; padding:10px;" onclick="downloadCart()">Download Cart</button>
-    <button class="small-btn" style="width:100%; margin-top:5px; background:#ccc;" onclick="toggleCart()">Close</button>
+    <button class="small-btn" style="width:100%; margin-top:15px; padding:12px;" onclick="downloadCart()">Download Cart</button>
+    <button class="small-btn" style="width:100%; margin-top:10px; background:#e0e0e0; color: #5d4157; box-shadow: none;" onclick="toggleCart()">Close</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -376,7 +485,16 @@ fetch("data.json")
     .then(data => {
         suits = data;
 
-        suits.sort((a, b) => Number(b.id) - Number(a.id));
+        // UPDATED SORTING: Prioritize suits with a VN name, fallback to ID sorting
+        suits.sort((a, b) => {
+            const hasVnA = (a.names && a.names.vn) ? 1 : 0;
+            const hasVnB = (b.names && b.names.vn) ? 1 : 0;
+            
+            if (hasVnA !== hasVnB) {
+                return hasVnB - hasVnA; // Puts the item with a VN name first
+            }
+            return Number(b.id) - Number(a.id); // Fallback to descending ID
+        });
         
         displaySuits(suits);
         loadCart();
@@ -398,11 +516,12 @@ function createCard(s) {
     const card = document.createElement("div");
     card.className = "suit-card";
 
-    const name = s.names?.en || s.names?.cn || s.names?.jp || s.name || s.SuitName || "Unnamed Suit";
+    // Try finding the vn name first, then fallback to others
+    const name = s.names?.vn || s.names?.en || s.names?.cn || s.names?.jp || s.name || s.SuitName || "Unnamed Suit";
 
     card.innerHTML = `
         <img data-id="${s.id}" style="opacity: 0; transition: opacity 0.4s ease-in-out;" alt="${name}">
-        <div style="margin-top:8px; font-weight:bold; font-size: 14px;">${name}</div>
+        <div>${name}</div>
     `;
     card.onclick = () => openSuit(s);
     grid.appendChild(card);
@@ -415,7 +534,7 @@ function openSuit(suit) {
     currentSuit = suit;
     document.getElementById("modal").style.display = "flex";
     
-    const suitName = suit.names?.en || suit.names?.cn || suit.names?.jp || suit.name || suit.SuitName || "Suit Parts";
+    const suitName = suit.names?.vn || suit.names?.en || suit.names?.cn || suit.names?.jp || suit.name || suit.SuitName || "Suit Parts";
     document.getElementById("suitTitle").textContent = suitName;
 
     const grid = document.getElementById("partsGrid");
@@ -434,7 +553,7 @@ function openSuit(suit) {
                 
                 partCard.innerHTML = `
                     <img src="${foundUrl}" loading="lazy">
-                    <div style="font-size:11px; margin:4px 0; font-weight: bold;">${label}</div>
+                    <div style="font-size:12px; margin:6px 0; font-weight: bold; color: var(--text-main);">${label}</div>
                     <div class="btn-group">
                         <button class="small-btn" style="padding: 6px 12px; font-size: 11px;" onclick="addToCart('${label}', '${foundUrl}')">Add</button>
                         <button class="small-btn" style="padding: 6px 12px; font-size: 11px;" onclick="downloadDirect('${foundUrl}', '${label}.png')">DL</button>
@@ -446,7 +565,7 @@ function openSuit(suit) {
     });
 
     setTimeout(() => { 
-        if (!loadedAny) grid.innerHTML = "<div style='grid-column: 1 / -1; text-align: center;'>Nikki got distracted... (Reopen me again to see clothing parts! ...or wait since she's getting the items up!)</div>"; 
+        if (!loadedAny) grid.innerHTML = "<div style='grid-column: 1 / -1; text-align: center; color: var(--text-main);'>Nikki got distracted... (Reopen me again to see clothing parts! ...or wait since she's getting the items up!)</div>"; 
     }, 4000);
 }
 
@@ -484,7 +603,7 @@ function updateCartUI() {
         item.className = "cart-item";
         item.innerHTML = `
             <img src="${url}">
-            <span style="font-size:13px; font-weight: bold;">${id}</span>
+            <span style="font-size:14px; font-weight: bold; color: var(--text-main);">${id}</span>
             <span class="trash" onclick="removeFromCart('${id}')">🗑️</span>
         `;
         container.appendChild(item);

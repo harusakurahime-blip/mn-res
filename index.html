@@ -385,8 +385,10 @@ input:focus, select:focus {
     <select id="langSwitcher" onchange="changeLanguage()">
         <option value="en">English</option>
         <option value="vn">Tiếng Việt</option>
-        <option value="cn">中文</option>
+        <option value="cn">中文 (Simplified)</option>
+        <option value="tw">中文 (Traditional)</option>
         <option value="jp">日本語</option>
+        <option value="kr">한국어</option>
     </select>
     
     <input type="text" id="search" placeholder="Search suit..." oninput="searchSuit()">
@@ -442,12 +444,13 @@ input:focus, select:focus {
 let suits = [];
 let cart = new Map();
 let currentSuit = null;
-let currentLanguage = "en";
+let currentLanguage = "en"; // Default Language
 
 const BASE_USER = "https://raw.githubusercontent.com/harusakurahime-blip";
 const REPOS = ["mn-res", "mn-res-b3", "mn-res-b4", "mn-res-b5", "mn-res-b6", "mn-res-b7", "mn-res-b8", "mn-res-b9", "mn-res-b10", "mn-res-b11"]; 
 const VARIANTS = ["-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8", "-9", "-13", "-14", "-101", "-201", "-301", "-701", "-901"];
 
+// --- Updated Helper to grab the correct name based on all 6 Languages ---
 function getSuitName(s) {
     if (!s) return "Unnamed Suit";
     
@@ -456,10 +459,11 @@ function getSuitName(s) {
         if (s.names[currentLanguage]) {
             return s.names[currentLanguage];
         }
-        // Fallback chain if the preferred language is missing
-        return s.names.en || s.names.vn || s.names.cn || s.names.jp || s.name || s.SuitName || "Unnamed Suit";
+        // Expanded fallback chain if the preferred language is missing
+        return s.names.en || s.names.vn || s.names.cn || s.names.tw || s.names.jp || s.names.kr || s.name || s.SuitName || "Unnamed Suit";
     }
     
+    // Absolute fallback
     return s.name || s.SuitName || "Unnamed Suit";
 }
 
@@ -506,7 +510,7 @@ fetch("data.json")
     .then(data => {
         suits = data;
 
-        // Reverted to simple Latest to Oldest by ID
+        // Latest to Oldest by ID
         suits.sort((a, b) => Number(b.id) - Number(a.id));
         
         displaySuits(suits);
